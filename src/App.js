@@ -1,24 +1,30 @@
-import logo from './logo.svg';
 import './App.css';
+import Home from "./components/Home"
+import ChatScreen from "./components/ChatScreen"
+import React,{useState} from "react"
+import {Route, Routes} from "react-router-dom"
 
-function App() {
+function App(props) {
+
+  const [username, setUsername] = useState(() => localStorage.getItem("username"))
+ 
+  console.log(props);
+
+  function joinChat (newUsername){
+      console.log("Join Chat Clicked!");
+      localStorage.setItem("username", newUsername);
+      setUsername(newUsername);
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <Routes>
+        <Route exact path="/chat"
+          element = {<ChatScreen username={username}/>}
+        />
+        <Route exact path="/"
+            element = {<Home joinChat={joinChat}/>}
+        />
+      </Routes>  
   );
 }
 
